@@ -11,6 +11,8 @@ but cannot always guarantee backwards compatibility. Changes that may **break co
 
 **Improved**
 
+- 🚀🚀 New forecasting model: `XPatchModel` as proposed in the [xPatch paper](https://arxiv.org/abs/2412.17323) ([reference implementation](https://github.com/stitsyuk/xPatch), Apache-2.0). A dual-stream architecture with exponential (EMA / DEMA) seasonal-trend decomposition that processes the seasonal component with a patch CNN stream and the trend component with a linear MLP stream. It supports past covariates (as additional channel-independent input features) and probabilistic forecasting.
+
 **Fixed**
 
 **Dependencies**

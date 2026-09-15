@@ -1,0 +1,39 @@
+benchmarks:
+  - name: "xpatch-gpu-validation"
+    suite:
+      notebook:
+        path: "eval/eval_xpatch_gpu_validation.ipynb"
+        packages: [torch, pytorch-lightning]
+    scorer: xpatch_dlinear_mse_ratio
+    baseline: main
+    metrics:
+      - name: xpatch_dlinear_mse_ratio
+        role: target
+        direction: min
+        threshold: 1.0
+      - name: cpu_gpu_forward_max_abs_diff
+        role: guardrail
+        direction: min
+        threshold: 0.0001
+    policy:
+      guardrail_veto: true
+    compute:
+      tier: gpu
+      timeout_s: 1800
+    held_constant:
+      - "input_chunk_length=96, output_chunk_length=96 (ETTh1, paper default seq_len/pred_len regime)"
+      - "patch_len=16, stride=8, padding_patch=end (paper default patch geometry, VALIDATION.md mapping)"
+      - "ma_type=ema, alpha=0.3, beta=0.3, use_reversible_instance_norm=True (VALIDATION.md reference hyperparameter mapping)"
+      - "n_epochs, batch_size, random_state=42 and torch.manual_seed identical for DLinearModel and XPatchModel on both arms"
+    avoid:
+      - "the paper's arctan loss and sigmoid LR schedule are not reproduced here; this measures xPatch-vs-DLinear MSE under darts default loss/optimizer, not parity against the published Tables 1-4 rows, since no numeric paper values are present in this context"
+      - "ETTh1Dataset is fetched via darts' own built-in dataset loader, a pinned public source, not a live API"
+    provenance:
+      xpatch_dlinear_mse_ratio: "user_guidance"
+      cpu_gpu_forward_max_abs_diff: "pr_description:xpatch_model.py header comment on device-agnostic EMA/DEMA rewrite"
+      held_constant: "protocol_doc:VALIDATION.md"
+      suite: "synthesized"
+
+loop:
+  max_iterations: 8
+  fix_code: true
