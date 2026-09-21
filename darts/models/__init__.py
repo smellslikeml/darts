@@ -114,6 +114,9 @@ if TYPE_CHECKING:
     from darts.models.forecasting.timesfm2p5_model import (
         TimesFM2p5Model as TimesFM2p5Model,
     )
+    from darts.models.forecasting.timesfm3_model import (
+        TimesFM3Model as TimesFM3Model,
+    )
     from darts.models.forecasting.tirex_model import TiRexModel as TiRexModel
     from darts.models.forecasting.transformer_model import (
         TransformerModel as TransformerModel,
@@ -124,6 +127,7 @@ if TYPE_CHECKING:
         XGBClassifierModel as XGBClassifierModel,
     )
     from darts.models.forecasting.xgboost import XGBModel as XGBModel
+    from darts.models.forecasting.xpatch_model import XPatchModel as XPatchModel
 
 # mapping of public name -> (module_path, optional_dependency_name | None);
 # when optional_dependency_name is not None, a missing dependency yields a
@@ -186,10 +190,12 @@ _LAZY_IMPORTS: dict[str, tuple[str, str | None]] = {
     "TiDEModel": ("darts.models.forecasting.tide_model", "(Py)Torch"),
     "TransformerModel": ("darts.models.forecasting.transformer_model", "(Py)Torch"),
     "TSMixerModel": ("darts.models.forecasting.tsmixer_model", "(Py)Torch"),
+    "XPatchModel": ("darts.models.forecasting.xpatch_model", "(Py)Torch"),
     # --- Forecasting: Foundation models (Torch-based) ---
     "Chronos2Model": ("darts.models.forecasting.chronos2_model", "(Py)Torch"),
     "PatchTSTFMModel": ("darts.models.forecasting.patchtst_fm_model", "(Py)Torch"),
     "TimesFM2p5Model": ("darts.models.forecasting.timesfm2p5_model", "(Py)Torch"),
+    "TimesFM3Model": ("darts.models.forecasting.timesfm3_model", "(Py)Torch"),
     "TiRexModel": ("darts.models.forecasting.tirex_model", "(Py)Torch and/or TiRex-TS"),
     # --- Forecasting: NeuralForecast ---
     "NeuralForecastModel": ("darts.models.forecasting.nf_model", "NeuralForecast"),
